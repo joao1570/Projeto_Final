@@ -4,6 +4,8 @@ int main() {
 
     char nome[50];
     int opcao;
+    char tabuleiro[6][6];
+    int linha, coluna;
 
     printf("=================================\n");
     printf("        BATALHA NAVAL\n");
@@ -21,7 +23,22 @@ int main() {
     scanf("%d", &opcao);
 
     if (opcao == 1) {
-        printf("\nO jogo vai comecar!\n");
+
+        for (linha = 0; linha < 6; linha++) {
+            for (coluna = 0; coluna < 6; coluna++) {
+                tabuleiro[linha][coluna] = '~';
+            }
+        }
+
+        printf("\nTabuleiro:\n\n");
+
+        for (linha = 0; linha < 6; linha++) {
+            for (coluna = 0; coluna < 6; coluna++) {
+                printf("%c ", tabuleiro[linha][coluna]);
+            }
+            printf("\n");
+        }
+
     }
     else if (opcao == 2) {
         printf("\nA sair do jogo...\n");
