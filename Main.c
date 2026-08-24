@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <time.h>
 
+// Preenche os dois tabuleiros com agua (~)
 void preencherTabuleiros(char tabuleiroBarcos[6][6], char tabuleiroJogador[6][6]) {
 
     int linha, coluna;
 
+    // Percorre todas as linhas e colunas dos tabuleiros
     for (linha = 0; linha < 6; linha++) {
         for (coluna = 0; coluna < 6; coluna++) {
             tabuleiroBarcos[linha][coluna] = '~';
@@ -14,16 +16,20 @@ void preencherTabuleiros(char tabuleiroBarcos[6][6], char tabuleiroJogador[6][6]
     }
 }
 
+// Coloca 3 barcos em posicoes aleatorias
 void colocarBarcos(char tabuleiroBarcos[6][6]) {
 
     int linha, coluna;
     int barcosColocados = 0;
 
+    // Continua ate colocar os 3 barcos
     while (barcosColocados < 3) {
 
+        // Gera uma linha e uma coluna aleatorias entre 0 e 5
         linha = rand() % 6;
         coluna = rand() % 6;
 
+        // Verifica se ainda nao existe um barco nessa posicao
         if (tabuleiroBarcos[linha][coluna] != 'B') {
 
             tabuleiroBarcos[linha][coluna] = 'B';
@@ -32,6 +38,7 @@ void colocarBarcos(char tabuleiroBarcos[6][6]) {
     }
 }
 
+// Mostra no ecra o tabuleiro que o jogador pode ver
 void mostrarTabuleiro(char tabuleiroJogador[6][6]) {
 
     int linha, coluna;
@@ -39,6 +46,7 @@ void mostrarTabuleiro(char tabuleiroJogador[6][6]) {
     printf("\nTabuleiro:\n\n");
     printf("  1 2 3 4 5 6\n");
 
+    // Percorre o tabuleiro e mostra cada posicao
     for (linha = 0; linha < 6; linha++) {
 
         printf("%d ", linha + 1);
@@ -51,26 +59,10 @@ void mostrarTabuleiro(char tabuleiroJogador[6][6]) {
     }
 }
 
-int main() {
+// Pede uma opcao ao jogador e valida a resposta
+int escolherOpcao() {
 
-    srand(time(NULL));
-
-    char nome[50];
     int opcao;
-    char tabuleiroBarcos[6][6];
-    char tabuleiroJogador[6][6];
-    int linha, coluna;
-    int barcosDestruidos = 0;
-    int tentativas = 0;
-
-    printf("=================================\n");
-    printf("        BATALHA NAVAL\n");
-    printf("=================================\n\n");
-
-    printf("Introduz o teu nome: ");
-    scanf("%49s", nome);
-
-    printf("\nBem-vindo, %s!\n", nome);
 
     printf("\n1 - Jogar\n");
     printf("2 - Sair\n");
@@ -78,76 +70,139 @@ int main() {
     printf("\nEscolhe uma opcao: ");
     scanf("%d", &opcao);
 
-    if (opcao == 1) {
+    // Se a opcao for invalida, a funcao chama-se novamente
+    // Isto e um exemplo de recursao
+    if (opcao != 1 && opcao != 2) {
 
-        preencherTabuleiros(tabuleiroBarcos, tabuleiroJogador);
+        printf("\nOpcao invalida. Tenta novamente.\n");
 
-        colocarBarcos(tabuleiroBarcos);
+        return escolherOpcao();
+    }
 
-        while (barcosDestruidos < 3) {
+    return opcao;
+}
 
-            mostrarTabuleiro(tabuleiroJogador);
+// Controla uma partida completa
+void jogarPartida(char nome[50]) {
 
-            printf("\nBarcos destruidos: %d/3\n", barcosDestruidos);
+    char tabuleiroBarcos[6][6];
+    char tabuleiroJogador[6][6];
 
-            printf("\nEscolhe onde queres disparar.\n");
+    int linha, coluna;
+    int barcosDestruidos = 0;
+    int tentativas = 0;
 
-            printf("Linha (1-6): ");
-            scanf("%d", &linha);
+    // Prepara os tabuleiros para uma nova partida
+    preencherTabuleiros(tabuleiroBarcos, tabuleiroJogador);
 
-            printf("Coluna (1-6): ");
-            scanf("%d", &coluna);
+    // Coloca os barcos no tabuleiro escondido
+    colocarBarcos(tabuleiroBarcos);
 
-            if (linha < 1 || linha > 6 || coluna < 1 || coluna > 6) {
+    // O jogo continua enquanto ainda existirem barcos
+    while (barcosDestruidos < 3) {
 
-                printf("\nPosicao invalida. Escolhe valores entre 1 e 6.\n");
-                continue;
-            }
+        mostrarTabuleiro(tabuleiroJogador);
 
-            linha--;
-            coluna--;
+        printf("\nBarcos destruidos: %d/3\n", barcosDestruidos);
 
-            if (tabuleiroJogador[linha][coluna] == 'X' ||
-                tabuleiroJogador[linha][coluna] == 'O') {
+        printf("\nEscolhe onde queres disparar.\n");
 
-                printf("\nJa disparaste nessa posicao.\n");
-                continue;
-            }
+        printf("Linha (1-6): ");
+        scanf("%d", &linha);
 
-            tentativas++;
+        printf("Coluna (1-6): ");
+        scanf("%d", &coluna);
 
-            if (tabuleiroBarcos[linha][coluna] == 'B') {
+        // Verifica se a posicao escolhida existe no tabuleiro
+        if (linha < 1 || linha > 6 ||
+            coluna < 1 || coluna > 6) {
 
-                printf("\nAcertaste num barco!\n");
-
-                tabuleiroJogador[linha][coluna] = 'X';
-                tabuleiroBarcos[linha][coluna] = '~';
-
-                barcosDestruidos++;
-            }
-            else {
-
-                printf("\nFalhaste!\n");
-
-                tabuleiroJogador[linha][coluna] = 'O';
-            }
+            printf("\nPosicao invalida. Escolhe valores entre 1 e 6.\n");
+            continue;
         }
 
-        printf("\n=================================\n");
-        printf("        GANHASTE, %s!\n", nome);
-        printf("=================================\n");
+        // Converte os valores de 1-6 para indices de 0-5
+        linha--;
+        coluna--;
 
-        printf("\nDestruiste todos os barcos!\n");
-        printf("Numero de tentativas: %d\n", tentativas);
-    }
-    else if (opcao == 2) {
+        // Verifica se o jogador ja disparou nessa posicao
+        if (tabuleiroJogador[linha][coluna] == 'X' ||
+            tabuleiroJogador[linha][coluna] == 'O') {
 
-        printf("\nA sair do jogo...\n");
-    }
-    else {
+            printf("\nJa disparaste nessa posicao.\n");
+            continue;
+        }
 
-        printf("\nOpcao invalida.\n");
+        // Conta apenas os disparos validos
+        tentativas++;
+
+        // Verifica se existe um barco na posicao escolhida
+        if (tabuleiroBarcos[linha][coluna] == 'B') {
+
+            printf("\nAcertaste num barco!\n");
+
+            // X representa um barco atingido
+            tabuleiroJogador[linha][coluna] = 'X';
+
+            // Retira o barco do tabuleiro escondido
+            tabuleiroBarcos[linha][coluna] = '~';
+
+            barcosDestruidos++;
+        }
+        else {
+
+            printf("\nFalhaste!\n");
+
+            // O representa um disparo que falhou
+            tabuleiroJogador[linha][coluna] = 'O';
+        }
     }
+
+    // Mostra o tabuleiro final depois de destruir os 3 barcos
+    mostrarTabuleiro(tabuleiroJogador);
+
+    printf("\n=================================\n");
+    printf("        GANHASTE, %s!\n", nome);
+    printf("=================================\n");
+
+    printf("\nDestruiste todos os barcos!\n");
+    printf("Numero de tentativas: %d\n", tentativas);
+
+    printf("\nPodes jogar novamente pelo menu.\n");
+}
+
+int main() {
+
+    // Inicializa os numeros aleatorios
+    srand(time(NULL));
+
+    char nome[50];
+    int opcao;
+
+    printf("=================================\n");
+    printf("        BATALHA NAVAL\n");
+    printf("=================================\n\n");
+
+    // Le o nome do jogador
+    // %49s limita a leitura para nao ultrapassar o tamanho da string
+    printf("Introduz o teu nome: ");
+    scanf("%49s", nome);
+
+    printf("\nBem-vindo, %s!\n", nome);
+
+    // Mantem o programa aberto ate o jogador escolher sair
+    do {
+
+        opcao = escolherOpcao();
+
+        // Se escolher 1, inicia uma nova partida
+        if (opcao == 1) {
+            jogarPartida(nome);
+        }
+
+    } while (opcao != 2);
+
+    printf("\nA sair do jogo...\n");
 
     return 0;
 }
