@@ -28,3 +28,11 @@
 - Organização do código através de funções.
 - Implementada colocação aleatória dos barcos.
 - Realização de testes ao funcionamento do jogo.
+
+## Sessão 5
+- Implementada recursão na validação das opções do menu.
+- Adicionada a possibilidade de jogar novamente sem fechar o programa.
+- Criada a função jogarPartida() para organizar a lógica principal do jogo.
+- Reorganização do main() para tornar o código mais simples.
+- Adicionados comentários para explicar as principais partes do código.
+- Realizados testes à recursão, ao menu e ao funcionamento de novas partidas.
