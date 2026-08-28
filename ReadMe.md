@@ -2,18 +2,32 @@
 
 Projeto final desenvolvido em C.
 
-## Objetivo
-O objetivo do jogo é encontrar e destruir todos os barcos inimigos.
+## Descrição
 
-## Como jogar
-O jogador escolhe uma linha e uma coluna do tabuleiro para realizar um disparo.
+O jogo consiste numa versão simples da Batalha Naval para um jogador.
 
-- X - Tiro certeiro
-- O - Tiro falhado
-- ~ - Água
+São colocados 3 barcos aleatoriamente num tabuleiro 6x6 e o objetivo do jogador é encontrar e destruir todos os barcos com o menor número de tentativas possível.
 
-## Regras
-- O tabuleiro tem 6x6 posições.
-- Existem vários barcos escondidos no tabuleiro.
-- O jogador deve destruir todos os barcos para vencer.
-- Não é possível disparar duas vezes na mesma posição.
+## Funcionalidades
+
+- Tabuleiro 6x6.
+- 3 barcos colocados aleatoriamente.
+- Movimento do cursor através das setas do teclado.
+- Disparo através da tecla Enter.
+- Identificação de tiros acertados e falhados.
+- Contador de barcos destruídos.
+- Contador de tentativas.
+- Classificação final de acordo com o número de tentativas.
+- Interface em terminal utilizando a biblioteca ncurses.
+- Utilização de funções, matrizes, strings, estruturas de controlo e recursão.
+
+## Símbolos do jogo
+
+- `~` - Água
+- `X` - Barco atingido
+- `O` - Disparo falhado
+
+## Controlos
+
+- Setas do teclado - mover o cursor
+- Enter - disparar
