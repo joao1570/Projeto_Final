@@ -36,3 +36,13 @@
 - Reorganização do main() para tornar o código mais simples.
 - Adicionados comentários para explicar as principais partes do código.
 - Realizados testes à recursão, ao menu e ao funcionamento de novas partidas.
+
+## Sessão 6
+- Separação do projeto em main.c, game.c e game.h.
+- Implementação da biblioteca ncurses.
+- Adicionadas cores ao tabuleiro.
+- Adicionado cursor navegável com as setas do teclado.
+- Disparo através da tecla Enter.
+- Mantido o sistema de 3 barcos aleatórios.
+- Adicionado contador de tentativas.
+- Adicionada classificação final de acordo com o número de tentativas.
